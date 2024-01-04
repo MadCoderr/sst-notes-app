@@ -7,6 +7,9 @@ import handler from "@notes/core/handler";
 import dynamoDb from "@notes/core/dynamoDb";
 
 export const main = handler(async (event: APIGatewayProxyEvent) => {
+  const userId =
+    event.requestContext.authorizer?.iam.cognitoIdentity.identityId;
+
   const params = {
     TableName: Table.Notes.tableName,
 
@@ -17,7 +20,7 @@ export const main = handler(async (event: APIGatewayProxyEvent) => {
     // 'ExpressionAttributeValues' defines the value in the condition
     // - ':userId': defines 'userId' to be the id of the author
     ExpressionAttributeValues: {
-      ":userId": "123",
+      ":userId": userId,
     },
   };
 

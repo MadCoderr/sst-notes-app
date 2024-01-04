@@ -7,11 +7,14 @@ import handler from "@notes/core/handler";
 import dynamoDb from "@notes/core/dynamoDb";
 
 export const main = handler(async (event: APIGatewayProxyEvent) => {
+  const userId =
+    event.requestContext.authorizer?.iam.cognitoIdentity.identityId;
+
   const params = {
     TableName: Table.Notes.tableName,
     // 'Key' defines the partition key and sort key of // the item to be retrieved
     Key: {
-      userId: "123",
+      userId: userId,
       noteId: event?.pathParameters?.id,
     },
   };
